@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerador de Ticket</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 800px;
+      background: #fff;
+      margin: auto;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #3f51b5;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.25rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    textarea {
+      min-height: 80px;
+    }
+
+    button {
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      background: #3f51b5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #303f9f;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      background: #eee;
+      padding: 1rem;
+      margin-top: 2rem;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Gerador de Ticket Markdown</h1>
+
+    <form id="ticketForm">
+      <h3>🧩 Classificação</h3>
+      <label>Tipo</label>
+      <select id="tipo">
+        <option>Bug</option>
+        <option>Funcionalidade</option>
+        <option>Melhoria</option>
+        <option>Suporte</option>
+      </select>
+
+      <h3>✅ Validação</h3>
+      <label>Ambiente afetado</label>
+      <select id="ambiente">
+        <option>Produção</option>
+        <option>Homologação</option>
+        <option>Teste</option>
+        <option>Desenvolvimento</option>
+      </select>
+
+      <h3>🎯 Contexto</h3>
+      <label>Quem enfrenta o problema?</label>
+      <select id="quem">
+        <option>Usuário</option>
+        <option>Cliente</option>
+        <option>Produto</option>
+        <option>Suporte</option>
+        <option>QA</option>
+        <option>Dev</option>
+      </select>
+
+      <label>Onde acontece?</label>
+      <input type="text" id="onde" placeholder="Ex: Aplicação > Página > Componente">
+
+      <label>Data/Hora do incidente</label>
+      <input type="datetime-local" id="datahora">
+
+      <label>Impacto percebido</label>
+      <input type="text" id="impacto" placeholder="Ex: cliente não consegue finalizar compra">
+
+      <h3>📌 Problema</h3>
+      <label>Título descritivo</label>
+      <input type="text" id="titulo">
+
+      <label>Comportamento atual</label>
+      <textarea id="comportamentoAtual"></textarea>
+
+      <label>Comportamento esperado</label>
+      <textarea id="comportamentoEsperado"></textarea>
+
+      <label>Passos para reproduzir</label>
+      <textarea id="passos"></textarea>
+
+      <label>Evidências (Ex: Print, Vídeo, Log)</label>
+      <textarea id="evidencias"></textarea>
+
+      <label>Urgência</label>
+      <select id="urgencia">
+        <option>Crítica</option>
+        <option>Alta</option>
+        <option>Média</option>
+        <option>Baixa</option>
+      </select>
+
+      <label>Existe algum workaround? Qual?</label>
+      <input type="text" id="workaround">
+
+      <button type="button" onclick="gerarMarkdown()">Gerar Markdown</button>
+    </form>
+
+    <pre id="output"></pre>
+  </div>
+
+  <script>
+    function gerarMarkdown() {
+      const get = id => document.getElementById(id).value;
+
+      const markdown = `
+### 🧩 Classificação
+
+- Tipo: ${get('tipo')}
+
+### ✅ Validação
+
+- Ambiente afetado: ${get('ambiente')}
+
+### 🎯 Contexto
+
+- Quem enfrenta o problema? ${get('quem')}
+- Onde acontece? ${get('onde')}
+- Data/Hora do incidente: ${get('datahora')}
+- Impacto percebido: ${get('impacto')}
+
+### 📌 Problema
+
+- Título: ${get('titulo')}
+
+- Comportamento atual: 
+${get('comportamentoAtual')}
+
+- Comportamento esperado: 
+${get('comportamentoEsperado')}
+
+- Passos para reproduzir: 
+${get('passos')}
+
+- Evidências: 
+${get('evidencias')}
+
+- Urgência: ${get('urgencia')}
+
+- Existe algum workaround? ${get('workaround')}
+
+      `.trim();
+
+      document.getElementById('output').textContent = markdown;
+    }
+  </script>
+</body>
+</html>
